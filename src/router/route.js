@@ -1,13 +1,13 @@
 import Test from "../component/Test"
 import Menu from "../component/Menu"
 
-let route=[
+const route=[
   {
     path:"/test",
     component:Test
   },
   {
-    path:"/Menu",
+    path:"/menu",
     component:Menu
   },
 ]

@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {BrowserRouter as Router,Switch,Route} from 'react-router-dom'
 import route from './route'
-export default class router extends Component{
+export default class router extends React.Component{
   render(){
     return(
         <Router>
