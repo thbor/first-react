@@ -28,6 +28,7 @@ export default class Test extends Component{
        <Test10/>
        <Test11/>
        <Test12/>
+       <Test13/>
       </div>
     )
   }
@@ -129,7 +130,7 @@ class Test8 extends Component{
     }
     this.changeInput = this.changeInput.bind(this)
   }
-  /*
+  /*(this必須要點到該元素，event.target只需要點到該元素在的那一塊區域)
   简单来说，this就是指向当前事件所绑定的元素，
   而e.target指向事件执行时鼠标所点击区域的那个元素。
   容易搞不懂的地方是，
@@ -209,14 +210,17 @@ class Test11 extends Component{
     super(props);
     this.state = {
       data:[],
+      flag:false,
     }
   }
   render(){
-    var dataFlag = this.state.data.length>0?'獲取數據成功':'獲取數據失敗'
+    var flagString = this.state.flag?'獲取數據成功':'獲取數據失敗'
     return(
       <div>
-        {dataFlag}
-        <span v-if={this.state.data.length>0}>數據長度爲{this.state.data.length}</span>
+        {flagString}
+        {/* 控制顯示和隱藏要用三元表達式判斷，而非用v-if,這裡v-if不起作用 */}
+        {this.state.flag?<span>數據長度爲{this.state.data.length}</span>:null}
+        {/* <span style={{visible:"hidden"}}>數據長度爲{this.state.data.length}</span> */}
       </div>
     )
   }
@@ -224,6 +228,7 @@ class Test11 extends Component{
     var url = "https://api.github.com/users/octocat/gists"
     $.get(url).then(data=>{
       this.setState({data:data})
+      if(data.length>0){this.setState({flag:true})}
       console.log("data2",this.state.data)
     }).catch(err=>{
       console.log(err)
@@ -255,8 +260,38 @@ class Test12 extends Component{
     )
   }
 }
-// function Test(){
-//   return(
-//     <h2>Test</h2>
-//   )
-// }
+//加載大量數據時顯示loading
+class Test13 extends Component{
+  constructor(props){
+    super(props);
+    this.state={
+      data:[],
+      error:null,
+      loading:true
+    }
+  }
+  render(){
+    var dataList = this.state.data;
+    if(this.state.loading){
+      return <span>loading...</span>
+    }else{
+      return(
+        <div style={{border:'1px solid black'}}>{dataList.map((item,index)=>{
+        return <div><a key={index} href={item.html_url}>{item.name}</a></div>
+        })}</div>
+        )
+    }
+
+  }
+  componentDidMount(){
+    let url = "https://api.github.com/search/repositories?q=javascript&sort=stars";
+    axios(url).then(data=>{
+      this.setState({data:data.data.items})
+      console.log("Test13",this.state.data)
+      this.setState({loading:false})
+    }).catch(err=>{
+      // this.state.error = err
+      this.setState({error:err})
+    })
+  }
+}

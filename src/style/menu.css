@@ -1,0 +1,40 @@
+.aside {
+  overflow: hidden;
+  float: left;
+  background: #3D464D;
+  color: white;
+  font-size: 14px;
+  height: calc(100vh - 60px);
+}
+
+.aside ul {
+  transition: all .3s;
+  cursor: pointer;
+  margin-top: 0px;
+  padding: 0px;
+}
+
+.aside li {
+  list-style-type: none;
+  padding: 0px;
+  height: 40px;
+  cursor: pointer;
+  padding: 20px 30px 0px;
+  text-align: left;
+}
+
+.aside .li2 {
+  padding: 20px 50px 0px;
+}
+
+.aside li:hover {
+  background: #31383E;
+}
+
+.hidden {
+  display: none;
+}
+
+.show {
+  display: block;
+}
